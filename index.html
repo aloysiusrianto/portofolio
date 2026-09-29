@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portofolio Aloysius Rianto</title>
+  <meta name="description" content="Portofolio Web Developer & System Designer - Aloysius Rianto">
+  <meta name="theme-color" content="#0f172a">
+
+  <!-- Favicon inline -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            slate: {
+              950: '#0f172a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Dark/Light Mode Config -->
+  <script>
+    // Init theme from localStorage or system preference
+    (function initTheme() {
+      const stored = localStorage.getItem('portfolio-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = stored || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      font-family: 'Inter', system-ui, sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* ===== DARK THEME (default) ===== */
+    [data-theme="dark"] {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: rgba(30, 41, 59, 0.4);
+      --bg-nav: rgba(15, 23, 42, 0.8);
+      --bg-badge: rgba(15, 23, 42, 0.7);
+      --border-color: rgba(148, 163, 184, 0.12);
+      --border-hover: rgba(20, 184, 166, 0.5);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --glow-color: rgba(20, 184, 166, 0.12);
+      --selection-bg: #14b8a6;
+      --selection-text: #0f172a;
+      --scrollbar-track: #0f172a;
+      --scrollbar-thumb: #1e293b;
+      --scrollbar-thumb-hover: #334155;
+    }
+
+    /* ===== LIGHT THEME ===== */
+    [data-theme="light"] {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #f1f5f9;
+      --bg-card: rgba(241, 245, 249, 0.5);
+      --bg-nav: rgba(255, 255, 255, 0.85);
+      --bg-badge: rgba(248, 250, 252, 0.8);
+      --border-color: rgba(148, 163, 184, 0.25);
+      --border-hover: rgba(20, 184, 166, 0.6);
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      --glow-color: rgba(20, 184, 166, 0.08);
+      --selection-bg: #14b8a6;
+      --selection-text: #f8fafc;
+      --scrollbar-track: #f1f5f9;
+      --scrollbar-thumb: #cbd5e1;
+      --scrollbar-thumb-hover: #94a3b8;
+    }
+
+    /* Gradient Glow Effect */
+    .glow-bg {
+      background: radial-gradient(600px circle at var(--x, 50%) var(--y, 50%), var(--glow-color), transparent 40%);
+      transition: background 0.1s ease;
+    }
+
+    /* Project Card Entrance Animations */
+    .card-1 { animation: cardEntrance 0.6s ease-out 0.1s both; }
+    .card-2 { animation: cardEntrance 0.6s ease-out 0.2s both; }
+    .card-3 { animation: cardEntrance 0.6s ease-out 0.3s both; }
+    .card-4 { animation: cardEntrance 0.6s ease-out 0.4s both; }
+    .card-5 { animation: cardEntrance 0.6s ease-out 0.5s both; }
+    .card-6 { animation: cardEntrance 0.6s ease-out 0.6s both; }
+    .card-7 { animation: cardEntrance 0.6s ease-out 0.7s both; }
+    .card-8 { animation: cardEntrance 0.6s ease-out 0.8s both; }
+
+    @keyframes cardEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Icon hover rotation (continuous subtle) */
+    .icon-spin-slow {
+      animation: iconSpin 8s linear infinite;
+    }
+    .group:hover .icon-spin-slow {
+      animation: iconSpinHover 1.5s ease-in-out infinite;
+    }
+
+    @keyframes iconSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes iconSpinHover {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.15); }
+    }
+
+    /* Hover glow border effect */
+    .card-glow {
+      position: relative;
+      overflow: hidden;
+    }
+    .card-glow::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      opacity: 0;
+      background: linear-gradient(135deg, var(--border-hover), transparent 40%, var(--border-hover));
+      transition: opacity 0.4s ease;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .group:hover .card-glow::before {
+      opacity: 1;
+    }
+
+    /* Floating subtle animation for cards */
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    .card-float {
+      animation: floatCard 4s ease-in-out infinite;
+    }
+    .card-2.card-float { animation-delay: 0.5s; }
+    .card-3.card-float { animation-delay: 1s; }
+    .card-4.card-float { animation-delay: 1.5s; }
+    .card-5.card-float { animation-delay: 2s; }
+    .card-6.card-float { animation-delay: 2.5s; }
+    .card-7.card-float { animation-delay: 3s; }
+    .card-8.card-float { animation-delay: 3.5s; }
+
+    /* Respect reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* Smooth fade-in on scroll */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger entrance delay for project cards */
+    .stagger-1 { animation-delay: 0.05s; }
+    .stagger-2 { animation-delay: 0.10s; }
+    .stagger-3 { animation-delay: 0.15s; }
+    .stagger-4 { animation-delay: 0.20s; }
+    .stagger-5 { animation-delay: 0.25s; }
+    .stagger-6 { animation-delay: 0.30s; }
+    .stagger-7 { animation-delay: 0.35s; }
+    .stagger-8 { animation-delay: 0.40s; }
+
+    /* Animated gradient border for cards */
+    .gradient-border {
+      position: relative;
+      background: #0f172a;
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+    .gradient-border::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 1rem;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(20,184,166,0.5), rgba(59,130,246,0.3), rgba(168,85,247,0.2));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    /* Styled scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--scrollbar-track);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--scrollbar-thumb-hover);
+    }
+
+    /* Nav link hover underline animation */
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: #14b8a6;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Typing animation for hero */
+    .typing-text {
+      display: inline;
+    }
+    .cursor-blink {
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* Background blobs */
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      animation: float 8s ease-in-out infinite;
+    }
+    .blob-1 {
+      top: 15%;
+      left: -10%;
+      width: 400px;
+      height: 400px;
+      background: rgba(20, 184, 166, 0.12);
+      animation-delay: 0s;
+    }
+    .blob-2 {
+      bottom: 20%;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      background: rgba(99, 102, 241, 0.10);
+      animation-delay: -4s;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(30px, -20px); }
+    }
+    /* Project Filter Transitions */
+    .project-hidden {
+      opacity: 0 !important;
+      transform: scale(0.92) !important;
+      pointer-events: none !important;
+      max-height: 0 !important;
+      overflow: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    .project-visible {
+      opacity: 1 !important;
+      transform: scale(1) !important;
+    }
+    .filter-btn {
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .filter-btn.active {
+      background: var(--border-hover) !important;
+      color: var(--bg-primary) !important;
+    }
+
+    /* Modal animations */
+    #caseStudyModal {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    #caseStudyModal:not(.hidden) {
+      opacity: 1;
+    }
+    #caseStudyModal > div {
+      transform: scale(0.95) translateY(20px);
+      transition: transform 0.3s ease;
+    }
+    #caseStudyModal:not(.hidden) > div {
+      transform: scale(1) translateY(0);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen relative overflow-x-hidden" style="background-color: var(--bg-primary); color: var(--text-primary);">
+
+  <!-- Background Blobs -->
+  <div class="blob blob-1" style="background: var(--glow-color);"></div>
+  <div class="blob blob-2" style="background: var(--glow-color);"></div>
+
+  <!-- Navigation Bar -->
+  <nav style="background: var(--bg-nav); border-color: var(--border-color); backdrop-filter: blur(20px); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3);"
+       class="fixed top-5 left-1/2 -translate-x-1/2 z-50 rounded-full px-5 py-3 flex items-center gap-6 sm:gap-10">
+    <div class="flex items-center gap-6 sm:gap-10 text-sm font-medium" style="color: var(--text-primary);">
+      <a href="#about" class="nav-link hover:text-teal-400 transition-colors" style="color: var(--text-primary);" data-lang-id="Tentang" data-lang-en="About">Tentang</a>
+      <a href="#projects" class="nav-link hover:text-teal-400 transition-colors" style="color: var(--text-primary);" data-lang-id="Proyek" data-lang-en="Projects">Proyek</a>
+      <a href="#skills" class="nav-link hover:text-teal-400 transition-colors" style="color: var(--text-primary);" data-lang-id="Keahlian" data-lang-en="Skills">Keahlian</a>
+      <a href="#contact" class="nav-link hover:text-teal-400 transition-colors" style="color: var(--text-primary);" data-lang-id="Kontak" data-lang-en="Contact">Kontak</a>
+    </div>
+
+    <!-- Language Switcher -->
+    <div class="flex items-center pl-4 gap-1 text-xs font-bold" style="border-left-color: var(--border-color);">
+      <button id="btn-id" onclick="setLanguage('id')"
+             class="px-2.5 py-1.5 rounded-lg transition-all active:scale-95" style="background: #14b8a6; color: #0f172a;"
+             data-theme-dark="bg-teal-500 text-slate-950"
+             data-theme-light="bg-teal-500 text-slate-950">ID</button>
+      <button id="btn-en" onclick="setLanguage('en')"
+             class="px-2.5 py-1.5 rounded-lg transition-all hover:bg-slate-800/50 active:scale-95" style="color: var(--text-secondary);"
+             data-theme-dark="text-slate-400 hover:text-white hover:bg-slate-800/50"
+             data-theme-light="text-slate-500 hover:text-slate-900 hover:bg-slate-200/50">EN</button>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button id="theme-toggle" onclick="toggleTheme()"
+            class="ml-2 p-2 rounded-lg transition-all hover:scale-110 active:scale-95"
+            style="color: var(--text-secondary); background: var(--bg-secondary); border: 1px solid var(--border-color);">
+      <i data-lucide="sun" id="theme-icon-sun" class="w-4 h-4 hidden" style="color: #f59e0b;"></i>
+      <i data-lucide="moon" id="theme-icon-moon" class="w-4 h-4" style="color: var(--text-secondary);"></i>
+    </button>
+  </nav>
+
+  <!-- 1. ABOUT / HERO -->
+  <section id="about" class="min-h-screen flex items-center justify-center pt-28 pb-16 px-6" style="background-color: var(--bg-primary);">
+    <div class="max-w-4xl mx-auto text-center space-y-10">
+      <!-- Greeting Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-sm text-xs font-mono text-teal-400 shadow-inner" style="background: var(--bg-badge); border-color: var(--border-color);">
+        <span class="relative flex h-2.5 w-2.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-teal-500"></span>
+        </span>
+        <span id="dynamic-greeting">Selamat Datang!</span>
+      </div>
+
+      <!-- Avatar Placeholder -->
+      <div class="mx-auto w-32 h-32 sm:w-40 sm:h-40 rounded-full p-1 shadow-2xl shadow-teal-500/20 ring-2 ring-slate-800/50" style="background: linear-gradient(135deg, #14b8a6, #0ea5e9, #6366f1); min-width: 128px; min-height: 128px;">
+        <div class="w-full h-full rounded-full flex items-center justify-center text-4xl sm:text-5xl font-black" style="background: #0f172a; color: transparent;">
+          <span class="bg-gradient-to-br from-teal-400 to-indigo-500 bg-clip-text text-transparent">AR</span>
+        </div>
+      </div>
+
+      <!-- Name -->
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight">
+        <span data-lang-id="Halo, Aku" data-lang-en="Hi, I'm">Halo, Aku</span>
+        <span class="bg-gradient-to-r from-teal-400 via-sky-400 to-indigo-500 bg-clip-text text-transparent">Aloysius Rianto</span>
+        <span class="inline-flex">
+          <span class="text-2xl sm:text-3xl">⚡</span>
+        </span>
+      </h1>
+
+      <!-- Tagline -->
+      <p style="color: var(--text-secondary);" class="text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+        <span data-lang-id="Pengembang Web, System Designer, dan Kreator Digital yang berfokus pada pembangunan platform edukasi interaktif, sistem informasi, dan solusi software yang intuitif."
+              data-lang-en="Web Developer, System Designer, and Digital Creator focusing on building interactive educational platforms, information systems, and intuitive software solutions.">
+          Pengembang Web, System Designer, dan Kreator Digital yang berfokus pada pembangunan platform edukasi interaktif, sistem informasi, dan solusi software yang intuitif.
+        </span>
+      </p>
+
+      <!-- Status badges -->
+      <div class="flex flex-wrap justify-center gap-3 text-xs font-mono">
+        <span style="background: rgba(20, 184, 166, 0.1); border-color: rgba(20, 184, 166, 0.2); color: #14b8a6;" class="px-3 py-1.5 rounded-full">🚀 React + Vite</span>
+        <span style="background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2); color: #3b82f6;" class="px-3 py-1.5 rounded-full">⚙️ Express + TypeScript</span>
+        <span style="background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.2); color: #a855f7;" class="px-3 py-1.5 rounded-full">🗄️ sql.js</span>
+        <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-3 py-1.5 rounded-full">🌐 Vercel + Railway</span>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="pt-4 flex flex-wrap justify-center gap-4">
+        <a href="#projects" style="background: #14b8a6; color: #0f172a; box-shadow: 0 10px 15px -3px rgba(20, 184, 166, 0.25);"
+           class="px-8 py-3.5 rounded-full font-bold transition-all hover:scale-105 active:scale-95 hover:shadow-xl hover:shadow-teal-500/40"
+           data-lang-id="Lihat Proyek 🚀" data-lang-en="View Projects 🚀">
+          Lihat Proyek 🚀
+        </a>
+        <a href="#contact" style="background: var(--bg-secondary); border: 2px solid var(--border-color); color: var(--text-primary);"
+           class="px-8 py-3.5 rounded-full font-semibold transition-all hover:scale-105 active:scale-95"
+           data-lang-id="Yuk Ngobrol 💬" data-lang-en="Let's Talk 💬">
+          Yuk Ngobrol 💬
+        </a>
+        <a href="aloysius-rianto-resume.pdf" download="aloysius-rianto-resume.pdf"
+           class="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm transition-all duration-300 hover:scale-105 active:scale-95"
+           style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-primary);"
+           data-lang-id="Unduh CV" data-lang-en="Download CV">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span data-lang-id="Unduh CV" data-lang-en="Download CV">Unduh CV</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. PROJECTS -->
+  <section id="projects" class="min-h-screen flex items-center justify-center py-20 px-6 scroll-mt-20">
+    <div class="max-w-6xl mx-auto w-full space-y-14 fade-in">
+      <!-- Section Header -->
+      <div class="text-center space-y-3">
+        <h2 class="text-3xl sm:text-4xl font-extrabold" style="color: var(--text-primary);" data-lang-id="Kumpulan Proyek" data-lang-en="Projects Showcase">
+          Kumpulan Proyek
+        </h2>
+        <p style="color: var(--text-secondary);" class="text-sm sm:text-base">
+          <span data-lang-id="Aplikasi, sistem informasi, desain sistem, dan proyek digital yang pernah saya kerjakan."
+                data-lang-en="Applications, information systems, system designs, and digital projects I have built.">
+            Aplikasi, sistem informasi, desain sistem, dan proyek digital yang pernah saya kerjakan.
+          </span>
+        </p>
+      </div>
+
+      <!-- Project Filter -->
+      <div class="flex flex-wrap justify-center gap-2 mb-8">
+        <button class="filter-btn active px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 active:scale-95"
+          style="background: var(--border-hover); color: var(--bg-primary);"
+          data-filter="all" data-lang-id="Semua" data-lang-en="All">Semua</button>
+        <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 active:scale-95"
+          style="background: var(--bg-card); color: var(--text-secondary); border-color: var(--border-color);"
+          data-filter="web" data-lang-id="Web Development" data-lang-en="Web Development">Web Development</button>
+        <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 active:scale-95"
+          style="background: var(--bg-card); color: var(--text-secondary); border-color: var(--border-color);"
+          data-filter="system" data-lang-id="System Design & Analysis" data-lang-en="System Design & Analysis">System Design &amp; Analysis</button>
+        <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 active:scale-95"
+          style="background: var(--bg-card); color: var(--text-secondary); border-color: var(--border-color);"
+          data-filter="branding" data-lang-id="Branding & Content" data-lang-en="Branding & Content">Branding &amp; Content</button>
+      </div>
+
+      <!-- Project Grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Proyek 1: Crypto Education Platform (Live) -->
+        <a href="https://cryptoedu.ct.ws/?i=1" target="_blank" rel="noopener noreferrer"
+           style="background: var(--bg-card); border-color: var(--border-color);"
+           class="project-card group relative p-6 rounded-2xl backdrop-blur-md hover:border-teal-500/60 hover:bg-transparent hover:-translate-y-1 transition-all duration-300 card-glow card-1 card-float"
+           data-kategori="web branding" onclick="event.preventDefault(); openModal(projectData['Crypto Education']);">
+          <div class="flex justify-between items-start mb-4">
+            <div class="p-3 rounded-2xl flex items-center justify-center" style="background: rgba(20, 184, 166, 0.1); color: #14b8a6;" class="group-hover:scale-110 group-hover:bg-teal-500/15 transition-transform duration-300 icon-spin-slow">
+              <i data-lucide="bitcoin" class="w-6 h-6"></i>
+            </div>
+            <span style="background: rgba(20, 184, 166, 0.1); border-color: rgba(20, 184, 166, 0.2); color: #14b8a6;" class="text-[11px] font-mono px-3 py-1 rounded-full border">Live Demo</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2 group-hover:text-teal-400 transition-colors" style="color: var(--text-primary);">Crypto Education</h3>
+          <p class="text-xs leading-relaxed mb-5" style="color: var(--text-secondary);">
+            Platform edukasi interaktif berbasis web untuk memahami konsep cryptocurrency dan ekosistem digital secara terstruktur.
+          </p>
+          <div class="flex flex-wrap gap-1.5 text-[10px] font-mono">
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">HTML</span>
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">CSS</span>
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">PHP</span>
+          </div>
+          <div class="mt-4 flex items-center gap-2 text-xs font-semibold group-hover:text-teal-300 transition-colors" style="color: #14b8a6;">
+            <span data-lang-id="Buka Website" data-lang-en="Open Website">Buka Website</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </div>
+        </a>
+
+        <!-- Proyek 2: PT Jaya Arnikon Website (Live) -->
+        <a href="https://www.jayaarnikon.com/" target="_blank" rel="noopener noreferrer"
+           style="background: var(--bg-card); border-color: var(--border-color);"
+           class="project-card group relative p-6 rounded-2xl backdrop-blur-md hover:border-blue-500/60 hover:bg-transparent hover:-translate-y-1 transition-all duration-300 card-glow card-2 card-float"
+           data-kategori="web branding" onclick="event.preventDefault(); openModal(projectData['PT Jaya Arnikon Web']);">
+          <div class="flex justify-between items-start mb-4">
+            <div class="p-3 rounded-2xl flex items-center justify-center" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;" class="group-hover:scale-110 group-hover:bg-blue-500/15 transition-transform duration-300 icon-spin-slow">
+              <i data-lucide="building-2" class="w-6 h-6"></i>
+            </div>
+            <span style="background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2); color: #3b82f6;" class="text-[11px] font-mono px-3 py-1 rounded-full border">Live Demo</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2 group-hover:text-blue-400 transition-colors" style="color: var(--text-primary);">PT Jaya Arnikon Web</h3>
+          <p class="text-xs leading-relaxed mb-5" style="color: var(--text-secondary);">
+            Website company profile bilingual untuk perusahaan jasa konstruksi yang menampilkan profil, layanan, dan portofolio dalam ID & EN.
+          </p>
+          <div class="flex flex-wrap gap-1.5 text-[10px] font-mono">
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">WordPress</span>
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">Elementor</span>
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">WPML</span>
+          </div>
+          <div class="mt-4 flex items-center gap-2 text-xs font-semibold group-hover:text-blue-300 transition-colors" style="color: #3b82f6;">
+            <span data-lang-id="Buka Website" data-lang-en="Open Website">Buka Website</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </div>
+        </a>
+
+        <!-- Proyek: Employee Management System (Full-Stack) -->
+        <a href="https://employee-management-system-ijqjf63b5-aloysiusriantos-projects.vercel.app/" target="_blank" rel="noopener noreferrer"
+           style="background: var(--bg-card); border-color: var(--border-color);"
+           class="project-card group relative p-6 rounded-2xl backdrop-blur-md hover:border-teal-500/60 hover:bg-transparent hover:-translate-y-1 transition-all duration-300 card-glow card-3 card-float"
+           data-kategori="web system" onclick="event.preventDefault(); openModal(projectData['Employee Management System']);">
+          <div class="flex justify-between items-start mb-4">
+            <div class="p-3 rounded-2xl flex items-center justify-center" style="background: rgba(20, 184, 166, 0.1); color: #14b8a6;" class="group-hover:scale-110 group-hover:bg-teal-500/15 transition-transform duration-300 icon-spin-slow">
+              <i data-lucide="users" class="w-6 h-6"></i>
+            </div>
+            <span style="background: rgba(20, 184, 166, 0.1); border-color: rgba(20, 184, 166, 0.2); color: #14b8a6;" class="text-[11px] font-mono px-3 py-1 rounded-full border">Full-Stack</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2 group-hover:text-teal-400 transition-colors" style="color: var(--text-primary);">Employee Management System</h3>
+          <p class="text-xs leading-relaxed mb-5" style="color: var(--text-secondary);">
+            Aplikasi manajemen karyawan full-stack: React/TypeScript + Vite frontend (Vercel), Express/TypeScript + sql.js backend (Railway). CRUD karyawan, autentikasi, dan dashboard interaktif.
+          </p>
+          <div class="flex flex-wrap gap-1.5 text-[10px] font-mono">
+            <span style="background: rgba(20, 184, 166, 0.1); border-color: rgba(20, 184, 166, 0.2); color: #14b8a6;" class="px-2.5 py-0.5 rounded-full border">React</span>
+            <span style="background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2); color: #3b82f6;" class="px-2.5 py-0.5 rounded-full border">TypeScript</span>
+            <span style="background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.2); color: #a855f7;" class="px-2.5 py-0.5 rounded-full border">Vite</span>
+            <span style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.2); color: #22c55e;" class="px-2.5 py-0.5 rounded-full border">Express</span>
+            <span style="background: rgba(249, 115, 22, 0.1); border-color: rgba(249, 115, 22, 0.2); color: #f97316;" class="px-2.5 py-0.5 rounded-full border">sql.js</span>
+          </div>
+          <div class="mt-4 flex items-center gap-2 text-xs font-semibold text-teal-400 group-hover:text-teal-300 transition-colors">
+            <span data-lang-id="Buka Website" data-lang-en="Open Website">Buka Website</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </div>
+        </a>
+
+        <!-- Proyek 3: Library Management System (Demo Pending) -->
+        <div style="background: var(--bg-card); border-color: rgba(245, 158, 11, 0.3);"
+             class="group p-6 rounded-2xl backdrop-blur-md hover:border-amber-500/60 hover:bg-transparent hover:-translate-y-1 transition-all duration-300 card-glow card-3 card-float">
+          <div class="flex justify-between items-start mb-4">
+            <div class="p-3 rounded-2xl flex items-center justify-center" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;" class="group-hover:scale-110 group-hover:bg-amber-500/15 transition-transform duration-300 icon-spin-slow">
+              <i data-lucide="library" class="w-6 h-6"></i>
+            </div>
+            <span style="background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.2); color: #f59e0b;" class="text-[11px] font-mono px-3 py-1 rounded-full border">Web App</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2 group-hover:text-amber-400 transition-colors" style="color: var(--text-primary);">Library Management System</h3>
+          <p class="text-xs leading-relaxed mb-5" style="color: var(--text-secondary);">
+            Aplikasi berbasis web untuk mengelola data buku, anggota, peminjaman, dan pengembalian dengan fitur CRUD serta sistem autentikasi pengguna.
+          </p>
+          <div class="flex flex-wrap gap-1.5 text-[10px] font-mono">
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">PHP Native</span>
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">MySQL</span>
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">Bootstrap</span>
+          </div>
+          <span class="mt-4 inline-flex items-center gap-1.5 text-xs font-mono" style="color: var(--text-muted);">
+            <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+            <span data-lang-id="Demo Segera" data-lang-en="Demo Coming Soon">Demo Segera</span>
+          </span>
+        </div>
+
+        <!-- Proyek 4: Product Sales Mobile App (Demo Pending) -->
+        <div style="background: var(--bg-card); border-color: rgba(16, 185, 129, 0.3);"
+             class="group p-6 rounded-2xl backdrop-blur-md hover:border-emerald-500/60 hover:bg-transparent hover:-translate-y-1 transition-all duration-300 card-glow card-4 card-float">
+          <div class="flex justify-between items-start mb-4">
+            <div class="p-3 rounded-2xl flex items-center justify-center" style="background: rgba(16, 185, 129, 0.1); color: #10b981;" class="group-hover:scale-110 group-hover:bg-emerald-500/15 transition-transform duration-300 icon-spin-slow">
+              <i data-lucide="smartphone" class="w-6 h-6"></i>
+            </div>
+            <span style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); color: #10b981;" class="text-[11px] font-mono px-3 py-1 rounded-full border">Mobile App</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2 group-hover:text-emerald-400 transition-colors" style="color: var(--text-primary);">Product Sales Mobile App</h3>
+          <p class="text-xs leading-relaxed mb-5" style="color: var(--text-secondary);">
+            Aplikasi Android sederhana untuk menampilkan informasi produk dan proses transaksi dengan antarmuka yang mudah digunakan.
+          </p>
+          <div class="flex flex-wrap gap-1.5 text-[10px] font-mono">
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">Android Studio</span>
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">Java/Kotlin</span>
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">XML</span>
+          </div>
+          <span class="mt-4 inline-flex items-center gap-1.5 text-xs font-mono" style="color: var(--text-muted);">
+            <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+            <span data-lang-id="Demo Segera" data-lang-en="Demo Coming Soon">Demo Segera</span>
+          </span>
+        </div>
+
+        <!-- Proyek 5: Fast Typing Service Branding -->
+        <div style="background: var(--bg-card); border-color: rgba(236, 72, 153, 0.3);"
+             class="group p-6 rounded-2xl backdrop-blur-md hover:border-pink-500/60 hover:bg-transparent hover:-translate-y-1 transition-all duration-300 card-glow card-5 card-float">
+          <div class="flex justify-between items-start mb-4">
+            <div class="p-3 rounded-2xl flex items-center justify-center" style="background: rgba(236, 72, 153, 0.1); color: #ec4899;" class="group-hover:scale-110 group-hover:bg-pink-500/15 transition-transform duration-300 icon-spin-slow">
+              <i data-lucide="palette" class="w-6 h-6"></i>
+            </div>
+            <span style="background: rgba(236, 72, 153, 0.1); border-color: rgba(236, 72, 153, 0.2); color: #ec4899;" class="text-[11px] font-mono px-3 py-1 rounded-full border">Branding</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2 group-hover:text-pink-400 transition-colors" style="color: var(--text-primary);">Fast Typing Service Branding</h3>
+          <p class="text-xs leading-relaxed mb-5" style="color: var(--text-secondary);">
+            Pembuatan identitas visual dan materi promosi untuk layanan freelance konversi dokumen dan pengetikan cepat (logo, banner, deskripsi).
+          </p>
+          <div class="flex flex-wrap gap-1.5 text-[10px] font-mono">
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">Canva</span>
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">Photoshop</span>
+          </div>
+          <span class="mt-4 text-xs font-mono" style="color: rgba(236, 72, 153, 0.8);">
+            <i data-lucide="package" class="w-3.5 h-3.5 inline"></i>
+            <span data-lang-id="Materi Digital" data-lang-en="Digital Assets">Materi Digital</span>
+          </span>
+        </div>
+
+        <!-- Proyek 6: CryptoLearn System Design -->
+        <a href="https://cryptolearn.ct.ws/" target="_blank" rel="noopener noreferrer"
+           style="background: var(--bg-card); border-color: var(--border-color);"
+           class="project-card group relative p-6 rounded-2xl backdrop-blur-md hover:border-cyan-500/60 hover:bg-transparent hover:-translate-y-1 transition-all duration-300 card-glow card-6 card-float"
+           data-kategori="system" onclick="event.preventDefault(); openModal(projectData['CryptoLearn System Design']);">
+          <div class="flex justify-between items-start mb-4">
+            <div class="p-3 rounded-2xl flex items-center justify-center" style="background: rgba(6, 182, 212, 0.1); color: #06b6d4;" class="group-hover:scale-110 group-hover:bg-cyan-500/15 transition-transform duration-300 icon-spin-slow">
+              <i data-lucide="workflow" class="w-6 h-6"></i>
+            </div>
+            <span style="background: rgba(6, 182, 212, 0.1); border-color: rgba(6, 182, 212, 0.2); color: #06b6d4;" class="text-[11px] font-mono px-3 py-1 rounded-full border">System Design</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2 group-hover:text-cyan-400 transition-colors" style="color: var(--text-primary);">CryptoLearn System Design</h3>
+          <p class="text-xs leading-relaxed mb-5" style="color: var(--text-secondary);">
+            Perancangan sistem yang mencakup analisis kebutuhan, desain basis data, Flowchart, DFD, ERD, dan dokumentasi metode Prototype.
+          </p>
+          <div class="flex flex-wrap gap-1.5 text-[10px] font-mono">
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">Flowchart</span>
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">DFD &amp; ERD</span>
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">Prototype</span>
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">Notion</span>
+          </div>
+          <div class="mt-4 flex items-center gap-2 text-xs font-semibold group-hover:text-cyan-300 transition-colors" style="color: #06b6d4;">
+            <span data-lang-id="Lihat Dokumentasi" data-lang-en="View Documentation">Lihat Dokumentasi</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </div>
+        </a>
+
+        <!-- Proyek 7: Internship Documentation -->
+        <div style="background: var(--bg-card); border-color: rgba(251, 146, 60, 0.3);"
+             class="group p-6 rounded-2xl backdrop-blur-md hover:border-orange-500/60 hover:bg-transparent hover:-translate-y-1 transition-all duration-300 card-glow card-7 card-float">
+          <div class="flex justify-between items-start mb-4">
+            <div class="p-3 rounded-2xl flex items-center justify-center" style="background: rgba(251, 146, 60, 0.1); color: #fb923c;" class="group-hover:scale-110 group-hover:bg-orange-500/15 transition-transform duration-300 icon-spin-slow">
+              <i data-lucide="file-check-2" class="w-6 h-6"></i>
+            </div>
+            <span style="background: rgba(251, 146, 60, 0.1); border-color: rgba(251, 146, 60, 0.2); color: #fb923c;" class="text-[11px] font-mono px-3 py-1 rounded-full border">Documentation</span>
+          </div>
+          <h3 class="text-lg font-bold mb-2 group-hover:text-orange-400 transition-colors" style="color: var(--text-primary);">Internship Documentation</h3>
+          <p class="text-xs leading-relaxed mb-5" style="color: var(--text-secondary);">
+            Penyusunan laporan magang lengkap yang mendokumentasikan aktivitas pengembangan website, implementasi bilingual, serta hasil kerja di PT Jaya Arnikon.
+          </p>
+          <div class="flex flex-wrap gap-1.5 text-[10px] font-mono">
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">MS Word</span>
+            <span style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-muted);" class="px-2.5 py-0.5 rounded-full border">Canva</span>
+          </div>
+          <span class="mt-4 text-xs font-mono" style="color: rgba(251, 146, 60, 0.8);">
+            <i data-lucide="file-text" class="w-3.5 h-3.5 inline"></i>
+            <span data-lang-id="Laporan Magang" data-lang-en="Internship Report">Laporan Magang</span>
+          </span>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. SKILLS -->
+  <section id="skills" class="min-h-screen flex items-center justify-center py-20 px-6 scroll-mt-20">
+    <div class="max-w-5xl mx-auto w-full space-y-12 fade-in">
+      <!-- Section Header -->
+      <div class="text-center space-y-3">
+        <h2 class="text-3xl sm:text-4xl font-extrabold" style="color: var(--text-primary);" data-lang-id="Keahlian & Tools" data-lang-en="Skills & Tools">
+          Keahlian & Tools
+        </h2>
+        <p style="color: var(--text-secondary);" class="text-sm sm:text-base">
+          <span data-lang-id="Teknologi dan tools yang sering dipakai dalam pengerjaan proyek."
+                data-lang-en="Technologies and tools frequently used in project development.">
+            Teknologi dan tools yang sering dipakai dalam pengerjaan proyek.
+          </span>
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        <!-- Skill: HTML & CSS -->
+        <div style="background: var(--bg-card); border-color: var(--border-color);"
+             class="p-5 rounded-xl backdrop-blur-sm hover:border-teal-500/50 hover:bg-transparent hover:scale-[1.02] transition-all duration-300 text-center group">
+          <div class="w-10 h-10 mx-auto mb-3 rounded-lg flex items-center justify-center" style="background: rgba(20, 184, 166, 0.1); color: #14b8a6;">
+            <i data-lucide="code-2" class="w-5 h-5 icon-spin-slow" style="color: #14b8a6;"></i>
+          </div>
+          <p class="font-semibold text-sm" style="color: var(--text-primary);">HTML & CSS</p>
+          <p class="text-[11px] mt-1.5" style="color: var(--text-muted);">Tampilan &amp; Responsif</p>
+        </div>
+
+        <!-- Skill: PHP & MySQL -->
+        <div style="background: var(--bg-card); border-color: var(--border-color);"
+             class="p-5 rounded-xl backdrop-blur-sm hover:border-indigo-500/50 hover:bg-transparent hover:scale-[1.02] transition-all duration-300 text-center group">
+          <div class="w-10 h-10 mx-auto mb-3 rounded-lg flex items-center justify-center" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;">
+            <i data-lucide="file-code-2" class="w-5 h-5 icon-spin-slow" style="color: #6366f1;"></i>
+          </div>
+          <p class="font-semibold text-sm" style="color: var(--text-primary);">PHP & MySQL</p>
+          <p class="text-[11px] mt-1.5" style="color: var(--text-muted);">Backend &amp; Database</p>
+        </div>
+
+        <!-- Skill: WordPress -->
+        <div style="background: var(--bg-card); border-color: var(--border-color);"
+             class="p-5 rounded-xl backdrop-blur-sm hover:border-blue-500/50 hover:bg-transparent hover:scale-[1.02] transition-all duration-300 text-center group">
+          <div class="w-10 h-10 mx-auto mb-3 rounded-lg flex items-center justify-center" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+            <i data-lucide="globe" class="w-5 h-5 icon-spin-slow" style="color: #3b82f6;"></i>
+          </div>
+          <p class="font-semibold text-sm" style="color: var(--text-primary);">WordPress</p>
+          <p class="text-[11px] mt-1.5" style="color: var(--text-muted);">CMS &amp; Elementor</p>
+        </div>
+
+        <!-- Skill: System Design -->
+        <div style="background: var(--bg-card); border-color: var(--border-color);"
+             class="p-5 rounded-xl backdrop-blur-sm hover:border-cyan-500/50 hover:bg-transparent hover:scale-[1.02] transition-all duration-300 text-center group">
+          <div class="w-10 h-10 mx-auto mb-3 rounded-lg flex items-center justify-center" style="background: rgba(6, 182, 212, 0.1);">
+            <i data-lucide="workflow" class="w-5 h-5" style="color: #06b6d4;" class="group-hover:rotate-12 transition-transform"></i>
+          </div>
+          <p class="font-semibold text-sm" style="color: var(--text-primary);">System Design</p>
+          <p class="text-[11px] mt-1.5" style="color: var(--text-muted);">Flowchart, ERD &amp; DFD</p>
+        </div>
+
+        <!-- Skill: React + TypeScript -->
+        <div style="background: var(--bg-card); border-color: var(--border-color);"
+             class="p-5 rounded-xl backdrop-blur-sm hover:border-teal-500/50 hover:bg-transparent hover:scale-[1.02] transition-all duration-300 text-center group">
+          <div class="w-10 h-10 mx-auto mb-3 rounded-lg flex items-center justify-center" style="background: rgba(20, 184, 166, 0.1);">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" style="color: #14b8a6;">
+              <path d="M19 20H5a2 2 0 002-2V10a2 2 0 002-2h10a2 2 0 002 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+            </svg>
+          </div>
+          <p class="font-semibold text-sm" style="color: var(--text-primary);">React + TS</p>
+          <p class="text-[11px] mt-1.5" style="color: var(--text-muted);">Frontend Modern</p>
+        </div>
+
+        <!-- Skill: Express + TypeScript -->
+        <div style="background: var(--bg-card); border-color: var(--border-color);"
+             class="p-5 rounded-xl backdrop-blur-sm hover:border-blue-500/50 hover:bg-transparent hover:scale-[1.02] transition-all duration-300 text-center group">
+          <div class="w-10 h-10 mx-auto mb-3 rounded-lg flex items-center justify-center" style="background: rgba(59, 130, 246, 0.1);">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" style="color: #3b82f6;">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <p class="font-semibold text-sm" style="color: var(--text-primary);">Express + TS</p>
+          <p class="text-[11px] mt-1.5" style="color: var(--text-muted);">Backend API</p>
+        </div>
+
+        <!-- Skill: Vite / Vercel -->
+        <div style="background: var(--bg-card); border-color: var(--border-color);"
+             class="p-5 rounded-xl backdrop-blur-sm hover:border-purple-500/50 hover:bg-transparent hover:scale-[1.02] transition-all duration-300 text-center group">
+          <div class="w-10 h-10 mx-auto mb-3 rounded-lg flex items-center justify-center" style="background: rgba(168, 85, 247, 0.1);">
+            <i data-lucide="zap" class="w-5 h-5" style="color: #a855f7;" class="group-hover:rotate-12 transition-transform"></i>
+          </div>
+          <p class="font-semibold text-sm" style="color: var(--text-primary);">Vite + Vercel</p>
+          <p class="text-[11px] mt-1.5" style="color: var(--text-muted);">Build &amp; Deploy</p>
+        </div>
+
+        <!-- Skill: sql.js / Railway -->
+        <div style="background: var(--bg-card); border-color: var(--border-color);"
+             class="p-5 rounded-xl backdrop-blur-sm hover:border-emerald-500/50 hover:bg-transparent hover:scale-[1.02] transition-all duration-300 text-center group">
+          <div class="w-10 h-10 mx-auto mb-3 rounded-lg flex items-center justify-center" style="background: rgba(34, 197, 94, 0.1);">
+            <i data-lucide="database" class="w-5 h-5" style="color: #22c55e;" class="group-hover:rotate-12 transition-transform"></i>
+          </div>
+          <p class="font-semibold text-sm" style="color: var(--text-primary);">sql.js + Railway</p>
+          <p class="text-[11px] mt-1.5" style="color: var(--text-muted);">DB &amp; Hosting</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. CONTACT -->
+  <section id="contact" class="min-h-screen flex items-center justify-center py-20 px-6 scroll-mt-20" style="background-color: var(--bg-primary);">
+    <div class="max-w-xl mx-auto w-full text-center space-y-10 fade-in">
+      <div class="space-y-3">
+        <h2 class="text-3xl sm:text-4xl font-extrabold" style="color: var(--text-primary);" data-lang-id="Hubungi Saya" data-lang-en="Get in Touch">
+          Hubungi Saya
+        </h2>
+        <p style="color: var(--text-secondary);" class="text-sm sm:text-base">
+          <span data-lang-id="Mari terhubung untuk diskusi proyek atau sekadar menyapa."
+                data-lang-en="Let's connect for project discussions or just to say hello.">
+            Mari terhubung untuk diskusi proyek atau sekadar menyapa.
+          </span>
+        </p>
+      </div>
+
+      <!-- ===== CASE STUDY MODAL ===== -->
+  <div id="caseStudyModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);">
+    <div class="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl" style="background: var(--bg-secondary); border-color: var(--border-color);">
+      <div class="flex items-center justify-between p-5 border-b" style="border-color: var(--border-color);">
+        <h3 id="modalTitle" class="text-lg font-bold" style="color: var(--text-primary);">Judul Proyek</h3>
+        <button onclick="closeModal()" class="p-1.5 rounded-lg hover:bg-slate-800/30 transition-colors" style="color: var(--text-secondary);">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="p-5 space-y-5">
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--text-muted);">Problem</h4>
+          <p id="modalProblem" class="text-sm leading-relaxed" style="color: var(--text-secondary);"></p>
+        </div>
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--text-muted);">Role &amp; Responsibility</h4>
+          <ul id="modalRole" class="space-y-1.5"></ul>
+        </div>
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--text-muted);">Architecture / Tech Stack</h4>
+          <div id="modalTechStack" class="flex flex-wrap gap-2"></div>
+        </div>
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--text-muted);">Outcome / Impact</h4>
+          <p id="modalOutcome" class="text-sm leading-relaxed" style="color: var(--text-secondary);"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTACT FORM ===== -->
+  <div class="mt-8 space-y-4 max-w-lg mx-auto text-left">
+    <h3 class="text-lg font-bold mb-2" style="color: var(--text-primary);" data-lang-id="Kirim Pesan" data-lang-en="Send a Message">Kirim Pesan</h3>
+    <form id="contactForm" class="space-y-4" onsubmit="handleSubmit(event)">
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-medium mb-1" style="color: var(--text-secondary);" data-lang-id="Nama" data-lang-en="Name">Nama</label>
+          <input type="text" id="formName" required minlength="2"
+            class="w-full px-3 py-2.5 rounded-lg text-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-500/40"
+            style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-primary);"
+            placeholder="Nama lengkap">
+          <p class="text-xs mt-1 hidden" id="nameError" style="color: #f87171;"></p>
+        </div>
+        <div>
+          <label class="block text-xs font-medium mb-1" style="color: var(--text-secondary);" data-lang-id="Email" data-lang-en="Email">Email</label>
+          <input type="email" id="formEmail" required
+            class="w-full px-3 py-2.5 rounded-lg text-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-500/40"
+            style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-primary);"
+            placeholder="email@contoh.com">
+          <p class="text-xs mt-1 hidden" id="emailError" style="color: #f87171;"></p>
+        </div>
+      </div>
+      <div>
+        <label class="block text-xs font-medium mb-1" style="color: var(--text-secondary);" data-lang-id="Subjek" data-lang-en="Subject">Subjek</label>
+        <input type="text" id="formSubject" required
+          class="w-full px-3 py-2.5 rounded-lg text-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-500/40"
+          style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-primary);"
+          placeholder="Subjek pesan">
+        <p class="text-xs mt-1 hidden" id="subjectError" style="color: #f87171;"></p>
+      </div>
+      <div>
+        <label class="block text-xs font-medium mb-1" style="color: var(--text-secondary);" data-lang-id="Pesan" data-lang-en="Message">Pesan</label>
+        <textarea id="formMessage" rows="4" required minlength="10"
+          class="w-full px-3 py-2.5 rounded-lg text-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-500/40 resize-none"
+          style="background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-primary);"
+          placeholder="Tulis pesan kamu..."></textarea>
+        <p class="text-xs mt-1 hidden" id="messageError" style="color: #f87171;"></p>
+      </div>
+      <button type="submit"
+        class="w-full py-3 rounded-lg font-semibold text-sm transition-all duration-300 hover:scale-[1.02] active:scale-95"
+        style="background: #14b8a6; color: #0f172a; box-shadow: 0 10px 15px -3px rgba(20,184,166,0.25);">
+        <span id="submitText" data-lang-id="Kirim Pesan" data-lang-en="Send Message">Kirim Pesan</span>
+        <svg id="submitSpinner" class="hidden animate-spin h-5 w-5 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+        </svg>
+      </button>
+      <p id="formFeedback" class="text-sm text-center hidden mt-2"></p>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <div class="flex justify-center gap-4 mb-4">
+    <a href="https://www.instagram.com/aloysiusrianto_/"
+       target="_blank" rel="noopener noreferrer"
+       class="text-slate-400 hover:text-teal-400 transition-colors p-2"
+       style="color: var(--text-muted);">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2.16c3.2 0 3.584.011 4.857.071 3.258.165 4.77 1.688 4.77 4.975 0 1.202-.364 2.363-1.688 4.258l4.168 4.168c.628.627.628 1.651 0 2.279-.628.628-1.651.628-2.279 0l-4.168-4.168c-1.895 1.322-3.056 1.688-4.258 1.688-3.284 0-4.806-.165-8.063-.165-3.257 0-4.77.165-7.963.55-4.156.512-5.728 2.03-5.728 6.388 0 1.202.364 2.363 1.688 4.258l-4.168 4.168c-.628.628-1.651.628-2.279 0l-.628-.628c-.628-.628-.628-1.651 0-2.279l4.168-4.168c1.322-1.895 1.688-3.056 1.688-4.258 0-3.284-.165-4.806-.495-8.063-.512-4.156-.512-5.728-.512-6.388 0-1.202.364-2.363 1.688-4.258l-4.168-4.168c-.628-.628-.628-1.651 0-2.279.628-.628 1.651-.628 2.279 0l4.168 4.168c1.895 1.322 3.056 1.688 4.258 1.688 3.284 0 4.806.165 8.063.165 3.257 0 4.771-.165 7.963-.55 4.156-.512 5.728-2.03 5.728-6.388 0-1.202-.364-2.363-1.688-4.258l4.168-4.168c.628-.628 1.651-.628 2.279 0 .628.628.628 1.651 0 2.279l-4.168 4.168c-1.322 1.895-1.688 3.056-1.688 4.258 0 3.284.165 4.806.495 8.063.512 4.156.512 5.728.512 6.388 0 1.202-.364 2.363-1.688 4.258l-4.168 4.168c-.628.628-1.651.628-2.279 0-.628-.628-.628-1.651 0-2.279l4.168-4.168zM12 0C8.735 0 8.474.01 5.304.078 2.074.156-.206 1.716-.206 4.968 0 6.166.364 7.328 1.688 9.218l4.168 4.168c.628.628.628 1.651 0 2.279-.628.628-1.651.628-2.279 0l-4.168-4.168C3.328 9.382 3 8.221 3 7 3 3.706 5.521 2.16 8.825 2.16c3.284 0 5.804.165 8.063.55 4.156.512 5.728 2.03 5.728 6.388 0 1.202-.364 2.363-1.688 4.258l-4.168 4.168c-.628.628-1.651.628-2.279 0-.628-.628-.628-1.651 0-2.279l4.168-4.168c1.322-1.895 1.688-3.056 1.688-4.258 0-3.284-.165-4.806-.495-8.063-.512-4.156-.512-5.728-.512-6.388 0-1.202.364-2.363 1.688-4.258l-4.168-4.168c-.628-.628-.628-1.651 0-2.279.628-.628 1.651-.628 2.279 0l4.168 4.168c1.895 1.322 3.056 1.688 4.258 1.688 3.284 0 4.806-.165 8.063-.55 2.986-.472 4.557-1.688 4.557-4.975 0-3.257-.165-4.77-.495-7.963-.512-4.156-.512-5.728-.512-6.388z"/>
+      </svg>
+    </a>
+    <a href="https://github.com/aloysiusrianto"
+       target="_blank" rel="noopener noreferrer"
+       class="text-slate-400 hover:text-teal-400 transition-colors p-2"
+       style="color: var(--text-muted);">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 0C5.373 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.79.728.79 1.807v1.664c0 1.328-.836 2.406-2.01 2.406-1.338 0-2.027-.948-2.027-2.015 0-.708.306-1.41.79-1.664C6.438 21.8 9.542 21.387 12 21.387c6.627 0 12-5.373 12-12S18.627 0 12 0z"/>
+      </svg>
+    </a>
+  </div>
+  <p class="text-xs pt-8 font-mono" style="color: var(--text-muted);">
+    &copy; 2026 Portofolio Aloysius Rianto &mdash; Built with HTML + Tailwind
+  </p>
+
+  <!-- Scripts -->
+  <script>
+    // 1. Init Lucide Icons
+    lucide.createIcons();
+
+    // 2. Mouse Glow Tracking
+    const body = document.body;
+    window.addEventListener('mousemove', (e) => {
+      body.style.setProperty('--x', `${e.clientX}px`);
+      body.style.setProperty('--y', `${e.clientY}px`);
+    });
+
+    // 3. Language State
+    let currentLang = localStorage.getItem('preferred_lang') || 'id';
+
+    // 4. Dynamic Greeting
+    function updateGreeting() {
+      const el = document.getElementById('dynamic-greeting');
+      const hour = new Date().getHours();
+      if (currentLang === 'en') {
+        el.textContent = hour < 11 ? 'Good Morning! ☀️'
+          : hour < 15 ? 'Good Afternoon! 🌤️'
+          : hour < 18 ? 'Good Evening! 🌇'
+          : 'Good Night! 🌙';
+      } else {
+        el.textContent = hour < 11 ? 'Selamat Pagi! ☀️'
+          : hour < 15 ? 'Selamat Siang! 🌤️'
+          : hour < 18 ? 'Selamat Sore! 🌇'
+          : 'Selamat Malam! 🌙';
+      }
+    }
+
+    // 5. Language Switcher
+    function setLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('preferred_lang', lang);
+
+      document.querySelectorAll('[data-lang-id]').forEach(el => {
+        el.textContent = lang === 'en' ? el.getAttribute('data-lang-en') : el.getAttribute('data-lang-id');
+      });
+
+      const btnId = document.getElementById('btn-id');
+      const btnEn = document.getElementById('btn-en');
+      if (lang === 'en') {
+        btnEn.className = 'px-2.5 py-1.5 rounded-lg bg-teal-500 text-slate-950 transition-all hover:shadow-lg hover:shadow-teal-500/25 active:scale-95';
+        btnId.className = 'px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all hover:bg-slate-800/50 active:scale-95';
+      } else {
+        btnId.className = 'px-2.5 py-1.5 rounded-lg bg-teal-500 text-slate-950 transition-all hover:shadow-lg hover:shadow-teal-500/25 active:scale-95';
+        btnEn.className = 'px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all hover:bg-slate-800/50 active:scale-95';
+      }
+      updateGreeting();
+    }
+
+    // 6. Init on load
+    document.addEventListener('DOMContentLoaded', () => {
+      setLanguage(currentLang);
+      updateGreeting();
+    });
+
+    // 7. Fade-in on scroll (Intersection Observer)
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    }
+
+    // 8. Theme Toggle Function
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('portfolio-theme', next);
+      updateThemeIcons(next);
+    }
+
+    function updateThemeIcons(theme) {
+      const sun = document.getElementById('theme-icon-sun');
+      const moon = document.getElementById('theme-icon-moon');
+      if (theme === 'dark') {
+        sun.classList.add('hidden');
+        moon.classList.remove('hidden');
+      } else {
+        sun.classList.remove('hidden');
+        moon.classList.add('hidden');
+      }
+    }
+
+    // Init theme icons on load
+    document.addEventListener('DOMContentLoaded', () => {
+      const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+      updateThemeIcons(theme);
+    });
+  </script>
+</body>
+</html>
